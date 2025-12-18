@@ -1,39 +1,58 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>RUPEYLO Loan Form</title>
-    <style>
-      body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;margin:24px}
-      .container{max-width:680px;margin:0 auto}
-      label{display:block;margin-top:12px}
-      input,select,textarea{width:100%;padding:8px;margin-top:6px}
-      button{margin-top:14px;padding:10px 16px}
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>RUPEYLO - Digital Loan Request</h1>
-      <p>Site live at <a href="https://jmddatasheet-blip.github.io/rupyelo-loan-form/">https://jmddatasheet-blip.github.io/rupyelo-loan-form/</a></p>
-      <p>Please fill your details below. Our team will contact you after submission.</p>
-      <form id="loanForm">
-        <label>Full name<input name="name" required></label>
-        <label>Mobile number<input name="mobile" required></label>
-        <label>Email (optional)<input name="email" type="email"></label>
-        <label>Loan amount<input name="amount" type="number" required></label>
-        <label>Purpose<textarea name="purpose" rows="3"></textarea></label>
-        <button type="submit">Submit</button>
-      </form>
-      <div id="thanks" style="display:none;margin-top:16px;padding:12px;background:#f3f3f3">Thank you — our team will contact you soon.</div>
-    </div>
-    <script>
-      document.getElementById('loanForm').addEventListener('submit', function(e){
-        e.preventDefault();
-        // Collect form data and show thank-you. Integrate with backend as needed.
-        document.getElementById('loanForm').style.display='none';
-        document.getElementById('thanks').style.display='block';
-      });
-    </script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<title>RUPEYLO Loan Application</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { font-family: Arial; background:#f5f7fa; padding:20px; }
+form { max-width:600px; margin:auto; background:#fff; padding:20px; border-radius:10px; }
+h2 { text-align:center; }
+input, select, button {
+  width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc;
+}
+button { background:#0a5cff; color:#fff; font-size:16px; cursor:pointer; }
+</style>
+</head>
+
+<body>
+
+<form id="loanForm">
+<h2>RUPEYLO Loan Application</h2>
+
+<input name="name" placeholder="Full Name" required>
+<input name="mobile" placeholder="Mobile Number" required>
+<input name="email" placeholder="Email">
+<input name="loan_amount" placeholder="Loan Amount">
+<input name="salary" placeholder="Monthly Salary">
+<select name="loan_purpose">
+<option value="">Loan Purpose</option>
+<option>Personal</option>
+<option>Business</option>
+<option>Salary Advance</option>
+</select>
+
+<button type="submit">Apply Now</button>
+<p id="msg"></p>
+</form>
+
+<script>
+const scriptURL = "PASTE_GOOGLE_SCRIPT_URL_HERE";
+const form = document.getElementById("loanForm");
+const msg = document.getElementById("msg");
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  fetch(scriptURL, { method: "POST", body: new FormData(form)})
+  .then(response => {
+    msg.innerHTML = "✅ Application Submitted Successfully";
+    form.reset();
+  })
+  .catch(error => {
+    msg.innerHTML = "❌ Error submitting form";
+  });
+});
+</script>
+
+</body>
 </html>
